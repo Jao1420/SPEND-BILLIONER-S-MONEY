@@ -1,5 +1,6 @@
-const button =  document.querySelectorAll('.btn-click');
-button.addEventListener('click', (e)=>{
-    e.preventDefault();
-    console.log("clicou")
-})
+const botoes = document.querySelectorAll('.btn-click');
+botoes.forEach(botao => {
+    botao.addEventListener('click', () => {
+        // lógica de subtrair o dinheiro aqui
+    });
+});
