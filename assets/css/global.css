@@ -1,0 +1,49 @@
+#container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#title {
+    font-size: 36px;
+    color: #0c0c0c;
+}
+
+#billionaires-box {
+    box-sizing: border-box;
+    display: flex;          /* Faz os filhos ficarem lado a lado */
+    flex-wrap: wrap;       /* Se não couber na tela, eles pulam para a linha de baixo */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    gap: 30px;          
+    width: 90%;
+    background-color: #6f6969;
+    min-height: 600px;      
+    margin: 2px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.billionaire {
+    box-sizing: border-box;
+    height: 600px;
+    width: 350px;
+    background-color: #4f3570;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;  /* Empilha o conteúdo (nome, imagem, texto) */
+    align-items: center;     /* Centraliza tudo horizontalmente */
+    text-align: center;      /* Garante que o texto fique centralizado */
+}
+
+.img {
+    height: 300px;
+    width: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;    /* Espaço entre a imagem e o texto abaixo */
+}
+
+#billionaires-box .name-bill {
+    text-align: center;
+}
+
