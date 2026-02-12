@@ -39,7 +39,7 @@
 }
 
 .billionaire-front, .billionaire-back {
-    position: absolute; /* Elas ocupam o mesmo lugar */
+    position: absolute; /* ocupam o mesmo lugar */
     width: 100%;
     height: 100%;
     backface-visibility: hidden; /* Esconde o que está atrás */
@@ -58,7 +58,8 @@
 
 .img {
     height: 300px;
-    width: auto;
+    width: 300px;
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
     border-radius: 10px;
     margin-bottom: 15px;    /* Espaço entre a imagem e o texto abaixo */
 }
@@ -66,4 +67,11 @@
 #billionaires-box .name-bill {
     text-align: center;
 }
+.description {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
 
