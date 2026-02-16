@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be happy..</title>
+    <style>
+   .box-objects {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column; /* Faz os blocos (Elon e Barra Verde) ficarem um abaixo do outro */
+            align-items: center;    /* Centraliza tudo horizontalmente */
+            gap: 20px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgb(75, 4, 141);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .chosser {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 35px;
+            text-align: center;
+            color: white; /* Cor do texto "Spend Money" */
+        }
+
+        .foto {
+            border-radius: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .worth {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;          /* Faz a barra ocupar a largura toda disponível */
+            /* max-width: 600px;     Mas limita para não ficar exagerada em telas grandes */
+            height: 80px;         /* Altura fixa para parecer uma barra de progresso/status */
+            font-size: 35px;      /* Texto grande e de destaque */
+            font-weight: bold;
+            color: #1b1b1b;
+            background-color: rgb(96, 244, 108);
+            position: sticky;     /* Opcional: faz a barra "grudar" no topo se você rolar a página */
+            top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box-objects">
+        <div class="chosser">
+            <img class="foto" src="assets/img/elon.png" alt="Elon Musk" style="width: 200px; height: auto;">
+            <span>Spend ${} MONEY</span>
+        </div>
+        <div class="worth">
+            <p>$849.000.000.000</p>
+        </div>
+    </div>
+</body>
+
+</html>
