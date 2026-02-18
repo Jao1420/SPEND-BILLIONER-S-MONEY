@@ -18,24 +18,85 @@ document.querySelectorAll('.btn-click').forEach(button => {
 let escolhaUsuario = null;
 const myCart = [];
 let total = 0;
-const itens = [{
+const itens = [
+  {
     id: 1,
+    name: "SPOTIFY YEAR PREMIUM",
+    price: 160,
+    image: "spotify.png"
+  },
+  {
+    id: 2,
+    name: "NETFLIX YEAR PREMIUM",
+    price: 300,
+    image: "netflix.png"
+  },
+  {
+    id: 3,
+    name: "FOOD'S",
+    price: 500,
+    image: "food.png"
+  },
+  {
+    id: 4,
+    name: "IPHONE 17 PRO MAX",
+    price: 1200,
+    image: "iphone.png"
+  },
+  {
+    id: 5,
+    name: "S26",
+    price: 1300,
+    image: "samsung.png"
+  },
+  {
+    id: 6,
     name: "LAMBORGHINI PURPLE",
     price: 1435873,
     image: "lambo.png"
   },
   {
-    id: 2,
+    id: 7,
     name: "FERRARI RED",
     price: 7500000,
     image: "ferrari.png"
   },
   {
-    id: 3,
+    id: 8,
+    name: "CHOPPER",
+    price: 14000000,
+    image: "chopper.png"
+  },
+  {
+    id: 9,
     name: "MANSION LUXURY",
     price: 85000000,
     image: "mansion.png"
   },
+  {
+    id: 10,
+    name: "IATE",
+    price: 256934800,
+    image: "iate.png"
+  },
+  {
+    id: 11,
+    name: "BARCA",
+    price: 5650000000,
+    image: "barca.png"
+  },
+  {
+    id: 12,
+    name: "DaJC",
+    price: 450000000,
+    image: "dajc.png"
+  },
+  {
+    id: 13,
+    name: "REAL MADRID",
+    price: 6750000000,
+    image: "real.png"
+  }
 ];
 
 const container = document.querySelector('.product'); // Seleciona o container cinza
