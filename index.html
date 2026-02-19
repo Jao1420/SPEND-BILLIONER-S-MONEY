@@ -21,9 +21,10 @@
     <div id="billionaires-box">
         <div class="billionaire-card" data-name="elon">
             <div class="billionaire-front">
-                <h2 class="name-bill">Elon Musk</h2>
+                <!-- Use data-value em vez de value -->
+                <h2 class="name-bill" data-value="849000000000" id="1">ELON MUSK</h2>
                 <img class="img" src="assets/img/elon.png" alt="Elon Musk">
-                <p>Net Worth: $849 Billion</p>
+                <p data-value="849000000000">Net Worth: $849 Billion</p>
             </div>
             <div class="billionaire-back">
                 <p class="description">Known for: Founding or leading companies that challenge the limits of technology:
@@ -34,9 +35,9 @@
         </div>
         <div class="billionaire-card" data-name="jeff">
             <div class="billionaire-front">
-                <h2 class="name-bill">Jeff Bezos</h2>
+                <h2 class="name-bill" data-value="222900000000" id="2">JEFF BEZOS</h2>
                 <img class="img" src="assets/img/jeff.png" alt="Jeff Bezos">
-                <p>Net Worth: $222.9 Billion</p>
+                <p data-value="222900000000">Net Worth: $222.9 Billion</p>
             </div>
             <div class="billionaire-back">
                 <p class="description">Known for: The founder and former CEO of Amazon, the e-commerce giant that
@@ -47,9 +48,9 @@
 
         <div class="billionaire-card" data-name="marquinhos">
             <div class="billionaire-front">
-                <h2 class="name-bill">Marquinhos</h2>
+                <h2 class="name-bill" data-value="232000000000" id="3">MARK ZUCKERBERG</h2>
                 <img class="img" src="assets/img/marquinhos.png" alt="Marquinhos">
-                <p>Net Worth: $232 Billion</p>
+                <p data-value="232000000000">Net Worth: $232 Billion</p>
             </div>
             <div class="billionaire-back">
                 <p class="description">Known for: the cofounder and CEO of Facebook (now part of Meta), the world's
@@ -59,6 +60,6 @@
         </div>
     </div>
 </body>
-<script type="module"src="src/js/main.js"></script>
+<script type="module" src="src/js/main.js"></script>
 
 </html>

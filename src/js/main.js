@@ -1,21 +1,29 @@
 import * as cartService from './cart/cartFunctions.js';
 
+let escolhaUsuario = null;
 document.querySelectorAll('.btn-click').forEach(button => {
   button.addEventListener('click', function () {
-    // Encontra o card mais próximo (pai com classe billionaire-card)
     const card = this.closest('.billionaire-card');
+    
+    // Captura os dados corretamente
+    const idCapturado = card.querySelector('.img').id;
+    const nomeBillionaire = card.getAttribute('data-name');
+    // Pega o data-value do <p> ou <h2>
+    const worth = card.querySelector('.billionaire-front p').getAttribute('data-value');
+    
+    console.log('Selecionado:', { idCapturado, nomeBillionaire, worth });
 
-    // Pega o nome do bilionário do atributo data-name
-    escolhaUsuario = card.getAttribute('data-name');
+    // ✅ Salva no sessionStorage (persiste entre páginas na mesma aba)
+    sessionStorage.setItem('billionaireId', idCapturado);
+    sessionStorage.setItem('billionaireName', nomeBillionaire);
+    sessionStorage.setItem('billionaireWorth', worth);
 
-    console.log('Você escolheu:', escolhaUsuario);
-    // alert(`Você escolheu: ${escolhaUsuario}`);
-    location.href = "spendMoney.html";
-
+    // Redireciona
+    window.location.href = "spendMoney.html";
   });
 });
 
-let escolhaUsuario = null;
+
 const myCart = [];
 let total = 0;
 const itens = [
@@ -98,7 +106,14 @@ const itens = [
     image: "real.png"
   }
 ];
-
+// const infoBox = document.querySelector('.box-objects');
+//   if (infoBox) {
+//     infoBox.innerHTML = `
+//       <h1>${billionaireName.toUpperCase()}</h1>
+//       <p> Budget: $<span id="budget-display">${billionaireWorth.toLocaleString('pt-BR')}</span></p>
+//       <p> Total gasto: $<span id="total-display">0</span></p>
+//     `;
+//   }
 const container = document.querySelector('.product'); // Seleciona o container cinza
 
 // Limpa o conteúdo estático que estava no HTML
