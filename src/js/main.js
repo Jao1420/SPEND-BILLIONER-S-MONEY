@@ -4,14 +4,18 @@ let escolhaUsuario = null;
 document.querySelectorAll('.btn-click').forEach(button => {
   button.addEventListener('click', function () {
     const card = this.closest('.billionaire-card');
-    
+
     // Captura os dados corretamente
     const idCapturado = card.querySelector('.img').id;
     const nomeBillionaire = card.getAttribute('data-name');
     // Pega o data-value do <p> ou <h2>
     const worth = card.querySelector('.billionaire-front p').getAttribute('data-value');
-    
-    console.log('Selecionado:', { idCapturado, nomeBillionaire, worth });
+
+    console.log('Selecionado:', {
+      idCapturado,
+      nomeBillionaire,
+      worth
+    });
 
     // ✅ Salva no sessionStorage (persiste entre páginas na mesma aba)
     sessionStorage.setItem('billionaireId', idCapturado);
@@ -26,94 +30,116 @@ document.querySelectorAll('.btn-click').forEach(button => {
 
 const myCart = [];
 let total = 0;
-const itens = [
-  {
+let itens = [{
     id: 1,
     name: "SPOTIFY YEAR PREMIUM",
-    price: 160,
+    price: "160",
     image: "spotify.png"
   },
   {
     id: 2,
     name: "NETFLIX YEAR PREMIUM",
-    price: 300,
+    price: "300",
     image: "netflix.png"
   },
   {
     id: 3,
     name: "FOOD'S",
-    price: 500,
+    price: "500",
     image: "food.png"
   },
   {
     id: 4,
     name: "IPHONE 17 PRO MAX",
-    price: 1200,
+    price: "1200",
     image: "iphone.png"
   },
   {
     id: 5,
     name: "S26",
-    price: 1300,
+    price: "1300",
     image: "samsung.png"
   },
   {
     id: 6,
-    name: "LAMBORGHINI PURPLE",
-    price: 1435873,
-    image: "lambo.png"
+    name: "XBOX SERIES X",
+    price: "700",
+    image: "xbox.png"
   },
   {
     id: 7,
-    name: "FERRARI RED",
-    price: 7500000,
-    image: "ferrari.png"
+    name: "PLAYSTATION PRO",
+    price: "800",
+    image: "ps5.png"
   },
   {
     id: 8,
-    name: "CHOPPER",
-    price: 14000000,
-    image: "chopper.png"
+    name: "LAMBORGHINI PURPLE",
+    price: "1.435.873",
+    image: "lambo.png"
   },
   {
     id: 9,
-    name: "MANSION LUXURY",
-    price: 85000000,
-    image: "mansion.png"
+    name: "FERRARI RED",
+    price: "7.500.000",
+    image: "ferrari.png"
   },
   {
     id: 10,
-    name: "IATE",
-    price: 256934800,
-    image: "iate.png"
+    name: "HELICOPTER",
+    price: "14.000.000",
+    image: "chopper.png"
   },
   {
     id: 11,
-    name: "BARCA",
-    price: 5650000000,
-    image: "barca.png"
+    name: "POKEMON CARD",
+    price: "16.400.000",
+    image: "pokemon.png"
   },
   {
     id: 12,
-    name: "DaJC",
-    price: 450000000,
-    image: "dajc.png"
+    name: "MANSION LUXURY",
+    price: "85.000.000",
+    image: "mansion.png"
   },
   {
     id: 13,
+    name: "IATE",
+    price: "256.934.800",
+    image: "iate.png"
+  },
+  {
+    id: 14,
+    name: "RB17",
+    price: "6.759.366",
+    image: "rb17.png"
+  },
+  {
+    id: 15,
+    name: "SALVATOR MUNDI",
+    price: "450.000.000",
+    image: "dajc.png"
+  },
+  {
+    id: 16,
+    name: "CROWN ROYAL",
+    price: "591.000.000",
+    image: "crown.png"
+  },
+  {
+    id: 17,
+    name: "BARÇA",
+    price: "5.650.000.000",
+    image: "barca.png"
+  },
+  {
+    id: 18,
     name: "REAL MADRID",
-    price: 6750000000,
+    price: "6.750.000.000",
     image: "real.png"
   }
 ];
-// const infoBox = document.querySelector('.box-objects');
-//   if (infoBox) {
-//     infoBox.innerHTML = `
-//       <h1>${billionaireName.toUpperCase()}</h1>
-//       <p> Budget: $<span id="budget-display">${billionaireWorth.toLocaleString('pt-BR')}</span></p>
-//       <p> Total gasto: $<span id="total-display">0</span></p>
-//     `;
-//   }
+
 const container = document.querySelector('.product'); // Seleciona o container cinza
 
 // Limpa o conteúdo estático que estava no HTML
@@ -137,7 +163,7 @@ itens.forEach(item => {
 
 container.addEventListener('click', (event) => {
   const target = event.target;
-  
+
   // Identifica se o clique foi em um dos botões que nos interessam
   const isBuy = target.classList.contains('buy-btn');
   const isSell = target.classList.contains('sell-btn');
@@ -168,7 +194,7 @@ container.addEventListener('click', (event) => {
 
 
   qtySpan.textContent = currentQty;
-  
+
   console.log(`Carrinho atual (${isBuy ? 'COMPROU' : 'VENDEU'}):`, myCart);
   console.log("Total atual:", total.toFixed(2)); // .toFixed(2) ajuda com centavos no JS
 });

@@ -116,11 +116,11 @@
 <body>
     <div class="box-objects">
         <div class="chosser">
-            <img class="foto" src="assets/img/elon.png" alt="Elon Musk" style="width: 200px; height: auto;">
-            <span>Spend ${} MONEY</span>
+            <img class="foto" id="billionaire-img" src="assets/img/elon.png" alt="Elon Musk" style="width: 200px; height: auto;">
+            <span id="billionaire-name">MARCK ZUCKEBERG</span>
         </div>
-        <div class="worth">
-            <p>$849.000.000.000</p>
+        <div class="worth" id="worth-sticky">
+            <p id="worth-value">$849.000.000.000</p>
         </div>
     </div>
     <div class="product">
@@ -144,4 +144,21 @@
 </body>
 
 <script src="src/js/main.js" type="module"></script>
+<script>
+// script para  carregar a escolha do user 
+window.addEventListener('DOMContentLoaded', function() {
+    const name = sessionStorage.getItem('billionaireName') || 'elon';
+    const worth = sessionStorage.getItem('billionaireWorth') || '849000000000';
+    const imgMap = {
+        'elon': 'elon.png',
+        'jeff': 'jeff.png',
+        'MARK ZUCKERBERG': 'marquinhos.png'
+    };
+    const img = imgMap[name] || 'elon.png';
+    document.getElementById('billionaire-img').src = `assets/img/${img}`;
+    document.getElementById('billionaire-img').alt = name;
+    document.getElementById('billionaire-name').textContent = name.toUpperCase();
+    document.getElementById('worth-value').textContent = `$${Number(worth).toLocaleString('en-US')}`;
+});
+</script>
 </html>
