@@ -15,7 +15,8 @@
     justify-content: center; /* Centraliza os itens horizontalmente */
     gap: 30px;          
     width: 90%;
-    background-color: #575656;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
     min-height: 600px;      
     margin: 2px auto;
     padding: 20px;
@@ -27,7 +28,8 @@
     position: relative;
     height: 600px;
     width: 350px;
-    background-color: transparent;
+    background: linear-gradient(135deg, #7b2ff2 0%, #f357a8 100%);
+    box-shadow: 0 6px 24px rgba(44, 62, 80, 0.13);
     border-radius: 10px;
     margin: 10px;
     transform-style: preserve-3d;
@@ -44,7 +46,7 @@
     height: 100%;
     backface-visibility: hidden; /* Esconde o que está atrás */
     border-radius: 10px;
-    background-color: #54188F; /* Cor de fundo movida para cá */
+    background: linear-gradient(135deg, #54188F 0%, #8f5aff 100%);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -66,7 +68,8 @@
 
 #billionaires-box .name-bill {
     text-align: center;
-    color: antiquewhite;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
     gap: 10px;
 }
 
@@ -76,11 +79,13 @@
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  color: aliceblue;
+    color: #f5f7fa;
 }
 .btn-click {
-  background-color: #0c0c0c;
-  color: white;
+    background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+    transition: background 0.2s, transform 0.2s;
   border: none;
   gap:50px;
   padding: 10px 20px;

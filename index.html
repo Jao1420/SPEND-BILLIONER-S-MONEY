@@ -59,7 +59,23 @@
             </div>
         </div>
     </div>
+
+<script type="module">
+// Lógica para escolher o bilionário e redirecionar
+document.querySelectorAll('.btn-click').forEach(button => {
+    button.addEventListener('click', function () {
+        const card = this.closest('.billionaire-card');
+        const idCapturado = card.querySelector('.name-bill').id;
+        const nomeBillionaire = card.getAttribute('data-name');
+        const worth = card.querySelector('.billionaire-front p').getAttribute('data-value');
+        sessionStorage.setItem('billionaireId', idCapturado);
+        sessionStorage.setItem('billionaireName', nomeBillionaire);
+        sessionStorage.setItem('billionaireWorth', worth);
+        window.location.href = "spendMoney.html";
+    });
+});
+</script>
 </body>
-<script type="module" src="src/js/main.js"></script>
+
 
 </html>

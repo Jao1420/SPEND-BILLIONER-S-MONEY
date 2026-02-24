@@ -1,4 +1,4 @@
-import * as cartService from './cart/cartFunctions.js';
+
 
 let escolhaUsuario = null;
 document.querySelectorAll('.btn-click').forEach(button => {
@@ -17,7 +17,7 @@ document.querySelectorAll('.btn-click').forEach(button => {
       worth
     });
 
-    // ✅ Salva no sessionStorage (persiste entre páginas na mesma aba)
+    // Salva no sessionStorage (persiste entre páginas na mesma aba)
     sessionStorage.setItem('billionaireId', idCapturado);
     sessionStorage.setItem('billionaireName', nomeBillionaire);
     sessionStorage.setItem('billionaireWorth', worth);
@@ -30,6 +30,74 @@ document.querySelectorAll('.btn-click').forEach(button => {
 
 const myCart = [];
 let total = 0;
+
+// Pega o valor do bilionário selecionado (do sessionStorage)
+let billionaireWorth = 0;
+try {
+  billionaireWorth = Number((sessionStorage.getItem('billionaireWorth') || '0').replace(/\./g, ''));
+} catch (e) {
+  billionaireWorth = 0;
+}
+
+// Função para atualizar o patrimônio na tela
+function atualizarPatrimonioTela() {
+  const worthEl = document.getElementById('worth-value');
+  if (worthEl && window.animateWorthValue) {
+    // Pega o valor atual exibido
+    const currentText = worthEl.textContent.replace(/[^\d]/g, '');
+    const currentValue = Number(currentText);
+    // Anima do valor atual para o novo valor
+    window.animateWorthValue(currentValue, billionaireWorth, 900);
+  } else if (worthEl) {
+    worthEl.textContent = `$${billionaireWorth.toLocaleString('en-US')}`;
+  }
+}
+
+// Cria o container do resumo
+
+let resumoDiv = document.createElement('div');
+resumoDiv.id = 'resumo-compras';
+resumoDiv.style = 'width: 70%; margin: 20px auto; background: #eee; border-radius: 10px; padding: 20px; color: #222; font-family: monospace; font-size: 1.5rem;';
+// Garante que o resumo fique sempre no final da página
+window.addEventListener('DOMContentLoaded', function() {
+  document.body.appendChild(resumoDiv);
+});
+
+function atualizarResumo() {
+  // Conta quantos de cada item tem no carrinho
+  const resumo = {};
+  myCart.forEach(item => {
+    if (!resumo[item.name]) {
+      resumo[item.name] = {
+        qtd: 0,
+        total: 0,
+        price: item.price
+      };
+    }
+    resumo[item.name].qtd++;
+    resumo[item.name].total += Number(String(item.price).replace(/\./g, "").replace(",", "."));
+  });
+  let html = '<b>Resumo das compras:</b><br>';
+  let totalGeral = 0;
+  Object.entries(resumo).forEach(([nome, info]) => {
+    html += `${nome}: <b>${info.qtd}x</b>, total = $${info.total.toLocaleString('pt-BR')}<br>`;
+    totalGeral += info.total;
+  });
+  html += `<hr><div style="font-size:2.3rem;font-weight:bold;color:#2ecc40;text-align:right;margin-top:18px;letter-spacing:1px;">Total geral:<span style='margin-left:12px;'>$${totalGeral.toLocaleString('pt-BR')}</span></div>`;
+
+  // Mensagem de consciência de classe
+  const worth = Number((sessionStorage.getItem('billionaireWorth') || '0').replace(/\./g, ''));
+  if (myCart.length === 0) html = '<b>Nenhum item comprado ainda.</b>';
+  resumoDiv.innerHTML = html;
+}
+
+// Inicializa o resumo vazio e o patrimônio na tela
+atualizarResumo();
+atualizarPatrimonioTela();
+
+// Limpa o conteúdo estático que estava no HTML
+document.querySelector('.product').innerHTML = "";
+
 let itens = [{
     id: 1,
     name: "SPOTIFY YEAR PREMIUM",
@@ -140,28 +208,26 @@ let itens = [{
   }
 ];
 
-const container = document.querySelector('.product'); // Seleciona o container cinza
-
-// Limpa o conteúdo estático que estava no HTML
-container.innerHTML = "";
-
+// IDs dos itens que só podem ser comprados uma vez
+const itensUnicos = [11, 15, 16, 17, 18];
 itens.forEach(item => {
-  container.innerHTML += `
-        <div class="product-info" data-id="${item.id}">
-            <img src="assets/img/${item.image}" alt="${item.name}">
-            <h2 class="data-name">${item.name}</h2>
-            <p>$${item.price.toLocaleString('pt-BR')}</p>
-            <div>
-                <button class="sell-btn">SELL</button>
-                <span class="qty">0</span>
-                <button class="buy-btn">BUY</button>
-            </div>
-        </div>
-    `;
+  document.querySelector('.product').innerHTML += `
+    <div class="product-info" data-id="${item.id}">
+      <img src="assets/img/${item.image}" alt="${item.name}">
+      <h2 class="data-name">${item.name}</h2>
+      <p>$${item.price.toLocaleString('pt-BR')}</p>
+      <div>
+        <button class="sell-btn">SELL</button>
+        <span class="qty">0</span>
+        <button class="buy-btn">BUY</button>
+      </div>
+    </div>
+  `;
 });
 
 
-container.addEventListener('click', (event) => {
+
+document.querySelector('.product').addEventListener('click', (event) => {
   const target = event.target;
 
   // Identifica se o clique foi em um dos botões que nos interessam
@@ -176,24 +242,52 @@ container.addEventListener('click', (event) => {
   const produtoDados = itens.find(i => i.id == idCapturado);
   const qtySpan = card.querySelector('.qty');
   let currentQty = parseInt(qtySpan.textContent);
+  const buyBtn = card.querySelector('.buy-btn');
 
   if (isBuy) {
     // Ação de Compra
+    let precoItem = Number(String(produtoDados.price).replace(/\./g, "").replace(",", "."));
+    if (billionaireWorth - precoItem < 0) {
+      alert('Você não pode gastar mais do que o valor do bilionário!');
+      return;
+    }
+    // Se for item único e já tiver 1, não permite comprar mais
+    if (itensUnicos.includes(Number(idCapturado)) && currentQty >= 1) {
+      alert('Este item só pode ser comprado uma vez!');
+      return;
+    }
     currentQty++;
     myCart.push(produtoDados);
-    total += produtoDados.price;
+    total += precoItem;
+    billionaireWorth -= precoItem;
+    atualizarPatrimonioTela();
+    // Se for item único, desabilita o botão de compra
+    if (itensUnicos.includes(Number(idCapturado)) && currentQty >= 1) {
+      buyBtn.disabled = true;
+      buyBtn.style.opacity = 0.5;
+      buyBtn.style.cursor = 'not-allowed';
+    }
   } else if (isSell && currentQty > 0) {
     // Ação de Venda
     currentQty--;
     const index = myCart.findIndex(item => item.id == produtoDados.id);
     if (index !== -1) {
+      let precoItem = Number(String(produtoDados.price).replace(/\./g, "").replace(",", "."));
       myCart.splice(index, 1);
-      total -= produtoDados.price;
+      total -= precoItem;
+      billionaireWorth += precoItem;
+      atualizarPatrimonioTela();
+    }
+    // Se for item único e vendeu tudo, reabilita o botão de compra
+    if (itensUnicos.includes(Number(idCapturado)) && currentQty === 0) {
+      buyBtn.disabled = false;
+      buyBtn.style.opacity = 1;
+      buyBtn.style.cursor = 'pointer';
     }
   }
 
-
   qtySpan.textContent = currentQty;
+  atualizarResumo();
 
   console.log(`Carrinho atual (${isBuy ? 'COMPROU' : 'VENDEU'}):`, myCart);
   console.log("Total atual:", total.toFixed(2)); // .toFixed(2) ajuda com centavos no JS
@@ -201,8 +295,3 @@ container.addEventListener('click', (event) => {
 
 
 
-export {
-  escolhaUsuario,
-  myCart,
-  total
-};
