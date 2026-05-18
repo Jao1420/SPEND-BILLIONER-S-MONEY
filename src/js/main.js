@@ -90,11 +90,10 @@ function updateProgress() {
 function showToast(message, type = "info") {
   const container = document.getElementById("toast-container");
   if (!container) return;
-  // Keep at most 4 toasts — remove the oldest if already at limit
+  // Keep at most 3 toasts — remove oldest instantly when at limit
   const existing = container.querySelectorAll(".toast");
-  if (existing.length >= 4) {
-    existing[0].classList.remove("show");
-    setTimeout(() => existing[0].remove(), 300);
+  if (existing.length >= 3) {
+    existing[0].remove();
   }
   const toast = document.createElement("div");
   toast.className = `toast toast-${type}`;
