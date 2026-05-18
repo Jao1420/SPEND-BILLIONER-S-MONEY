@@ -1,297 +1,358 @@
-
-
-let escolhaUsuario = null;
-document.querySelectorAll('.btn-click').forEach(button => {
-  button.addEventListener('click', function () {
-    const card = this.closest('.billionaire-card');
-
-    // Captura os dados corretamente
-    const idCapturado = card.querySelector('.img').id;
-    const nomeBillionaire = card.getAttribute('data-name');
-    // Pega o data-value do <p> ou <h2>
-    const worth = card.querySelector('.billionaire-front p').getAttribute('data-value');
-
-    console.log('Selecionado:', {
-      idCapturado,
-      nomeBillionaire,
-      worth
-    });
-
-    // Salva no sessionStorage (persiste entre páginas na mesma aba)
-    sessionStorage.setItem('billionaireId', idCapturado);
-    sessionStorage.setItem('billionaireName', nomeBillionaire);
-    sessionStorage.setItem('billionaireWorth', worth);
-
-    // Redireciona
-    window.location.href = "spendMoney.html";
-  });
-});
-
-
-const myCart = [];
-let total = 0;
-
-// Pega o valor do bilionário selecionado (do sessionStorage)
-let billionaireWorth = 0;
-try {
-  billionaireWorth = Number((sessionStorage.getItem('billionaireWorth') || '0').replace(/\./g, ''));
-} catch (e) {
-  billionaireWorth = 0;
-}
-
-// Função para atualizar o patrimônio na tela
-function atualizarPatrimonioTela() {
-  const worthEl = document.getElementById('worth-value');
-  if (worthEl && window.animateWorthValue) {
-    // Pega o valor atual exibido
-    const currentText = worthEl.textContent.replace(/[^\d]/g, '');
-    const currentValue = Number(currentText);
-    // Anima do valor atual para o novo valor
-    window.animateWorthValue(currentValue, billionaireWorth, 900);
-  } else if (worthEl) {
-    worthEl.textContent = `$${billionaireWorth.toLocaleString('en-US')}`;
-  }
-}
-
-// Cria o container do resumo
-
-let resumoDiv = document.createElement('div');
-resumoDiv.id = 'resumo-compras';
-resumoDiv.style = 'width: 70%; margin: 20px auto; background: #eee; border-radius: 10px; padding: 20px; color: #222; font-family: monospace; font-size: 1.5rem;';
-// Garante que o resumo fique sempre no final da página
-window.addEventListener('DOMContentLoaded', function() {
-  document.body.appendChild(resumoDiv);
-});
-
-function atualizarResumo() {
-  // Conta quantos de cada item tem no carrinho
-  const resumo = {};
-  myCart.forEach(item => {
-    if (!resumo[item.name]) {
-      resumo[item.name] = {
-        qtd: 0,
-        total: 0,
-        price: item.price
-      };
-    }
-    resumo[item.name].qtd++;
-    resumo[item.name].total += Number(String(item.price).replace(/\./g, "").replace(",", "."));
-  });
-  let html = '<b>Resumo das compras:</b><br>';
-  let totalGeral = 0;
-  Object.entries(resumo).forEach(([nome, info]) => {
-    html += `${nome}: <b>${info.qtd}x</b>, total = $${info.total.toLocaleString('pt-BR')}<br>`;
-    totalGeral += info.total;
-  });
-  html += `<hr><div style="font-size:2.3rem;font-weight:bold;color:#2ecc40;text-align:right;margin-top:18px;letter-spacing:1px;">Total geral:<span style='margin-left:12px;'>$${totalGeral.toLocaleString('pt-BR')}</span></div>`;
-
-  // Mensagem de consciência de classe
-  const worth = Number((sessionStorage.getItem('billionaireWorth') || '0').replace(/\./g, ''));
-  if (myCart.length === 0) html = '<b>Nenhum item comprado ainda.</b>';
-  resumoDiv.innerHTML = html;
-}
-
-// Inicializa o resumo vazio e o patrimônio na tela
-atualizarResumo();
-atualizarPatrimonioTela();
-
-// Limpa o conteúdo estático que estava no HTML
-document.querySelector('.product').innerHTML = "";
-
-let itens = [{
-    id: 1,
-    name: "SPOTIFY YEAR PREMIUM",
-    price: "160",
-    image: "spotify.png"
-  },
-  {
-    id: 2,
-    name: "NETFLIX YEAR PREMIUM",
-    price: "300",
-    image: "netflix.png"
-  },
-  {
-    id: 3,
-    name: "FOOD'S",
-    price: "500",
-    image: "food.png"
-  },
-  {
-    id: 4,
-    name: "IPHONE 17 PRO MAX",
-    price: "1200",
-    image: "iphone.png"
-  },
-  {
-    id: 5,
-    name: "S26",
-    price: "1300",
-    image: "samsung.png"
-  },
-  {
-    id: 6,
-    name: "XBOX SERIES X",
-    price: "700",
-    image: "xbox.png"
-  },
-  {
-    id: 7,
-    name: "PLAYSTATION PRO",
-    price: "800",
-    image: "ps5.png"
-  },
-  {
-    id: 8,
-    name: "LAMBORGHINI PURPLE",
-    price: "1.435.873",
-    image: "lambo.png"
-  },
-  {
-    id: 9,
-    name: "FERRARI RED",
-    price: "7.500.000",
-    image: "ferrari.png"
-  },
-  {
-    id: 10,
-    name: "HELICOPTER",
-    price: "14.000.000",
-    image: "chopper.png"
-  },
-  {
-    id: 11,
-    name: "POKEMON CARD",
-    price: "16.400.000",
-    image: "pokemon.png"
-  },
-  {
-    id: 12,
-    name: "MANSION LUXURY",
-    price: "85.000.000",
-    image: "mansion.png"
-  },
-  {
-    id: 13,
-    name: "IATE",
-    price: "256.934.800",
-    image: "iate.png"
-  },
-  {
-    id: 14,
-    name: "RB17",
-    price: "6.759.366",
-    image: "rb17.png"
-  },
-  {
-    id: 15,
-    name: "SALVATOR MUNDI",
-    price: "450.000.000",
-    image: "dajc.png"
-  },
-  {
-    id: 16,
-    name: "CROWN ROYAL",
-    price: "591.000.000",
-    image: "crown.png"
-  },
-  {
-    id: 17,
-    name: "BARÇA",
-    price: "5.650.000.000",
-    image: "barca.png"
-  },
-  {
-    id: 18,
-    name: "REAL MADRID",
-    price: "6.750.000.000",
-    image: "real.png"
-  }
+﻿
+// â”€â”€â”€ Product Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const itens = [
+  { id: 1,  name: "SPOTIFY PREMIUM (1 YEAR)",    price: 160,         image: "spotify.png",    category: "streaming"    },
+  { id: 2,  name: "NETFLIX PREMIUM (1 YEAR)",    price: 300,         image: "netflix.png",    category: "streaming"    },
+  { id: 3,  name: "LUXURY DINNER FOR TWO",       price: 500,         image: "food.png",       category: "lifestyle"    },
+  { id: 4,  name: "iPHONE 17 PRO MAX",           price: 1200,        image: "iphone.png",     category: "tech"         },
+  { id: 5,  name: "SAMSUNG GALAXY S26 ULTRA",    price: 1300,        image: "samsung.png",    category: "tech"         },
+  { id: 6,  name: "XBOX SERIES X",               price: 700,         image: "xbox.png",       category: "tech"         },
+  { id: 7,  name: "PLAYSTATION PRO",             price: 800,         image: "ps5.png",        category: "tech"         },
+  { id: 8,  name: "LAMBORGHINI PURPLE",          price: 1435873,     image: "lambo.png",      category: "cars"         },
+  { id: 9,  name: "FERRARI RED",                 price: 7500000,     image: "ferrari.png",    category: "cars"         },
+  { id: 10, name: "HELICOPTER",                  price: 14000000,    image: "chopper.png",    category: "aviation"     },
+  { id: 11, name: "POKEMON CARD (1ST EDITION)",  price: 16400000,    image: "pokemon.png",    category: "collectibles" },
+  { id: 12, name: "LUXURY MANSION",              price: 85000000,    image: "mansion.png",    category: "real-estate"  },
+  { id: 13, name: "SUPERYACHT",                  price: 256934800,   image: "iate.png",       category: "nautical"     },
+  { id: 14, name: "RED BULL RB17",               price: 6759366,     image: "rb17.png",       category: "cars"         },
+  { id: 15, name: "SALVATOR MUNDI",              price: 450000000,   image: "DaJC.png",       category: "collectibles" },
+  { id: 16, name: "CROWN OF SAINT WENCESLAS",    price: 591000000,   image: "crown.png",      category: "collectibles" },
+  { id: 17, name: "FC BARCELONA",                price: 5650000000,  image: "barca.png",      category: "sports"       },
+  { id: 18, name: "REAL MADRID CF",              price: 6750000000,  image: "real.png",       category: "sports"       },
 ];
 
-// IDs dos itens que só podem ser comprados uma vez
-const itensUnicos = [11, 15, 16, 17, 18];
-itens.forEach(item => {
-  document.querySelector('.product').innerHTML += `
-    <div class="product-info" data-id="${item.id}">
-      <img src="assets/img/${item.image}" alt="${item.name}">
-      <h2 class="data-name">${item.name}</h2>
-      <p>$${item.price.toLocaleString('pt-BR')}</p>
-      <div>
-        <button class="sell-btn">SELL</button>
-        <span class="qty">0</span>
-        <button class="buy-btn">BUY</button>
-      </div>
-    </div>
-  `;
-});
+const UNIQUE_ITEMS = new Set([11, 15, 16, 17, 18]);
 
+const CATEGORIES = [
+  { id: "all",          label: "All"          },
+  { id: "streaming",    label: "Streaming"    },
+  { id: "tech",         label: "Tech"         },
+  { id: "lifestyle",    label: "Lifestyle"    },
+  { id: "cars",         label: "Cars"         },
+  { id: "aviation",     label: "Aviation"     },
+  { id: "nautical",     label: "Nautical"     },
+  { id: "collectibles", label: "Collectibles" },
+  { id: "real-estate",  label: "Real Estate"  },
+  { id: "sports",       label: "Sports"       },
+];
 
+// â”€â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+let billionaireWorth = 0;
+let initialWorth     = 0;
+let myCart           = [];
+let totalSpent       = 0;
+let activeCategory   = "all";
 
-document.querySelector('.product').addEventListener('click', (event) => {
-  const target = event.target;
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function formatMoney(value) {
+  if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}B`;
+  if (value >= 1e6) return `$${(value / 1e6).toFixed(2)}M`;
+  if (value >= 1e3) return `$${(value / 1e3).toFixed(1)}K`;
+  return `$${value.toLocaleString("en-US")}`;
+}
 
-  // Identifica se o clique foi em um dos botões que nos interessam
-  const isBuy = target.classList.contains('buy-btn');
-  const isSell = target.classList.contains('sell-btn');
+function getQtyInCart(itemId) {
+  return myCart.filter(i => i.id === itemId).length;
+}
 
-  if (!isBuy && !isSell) return;
+// â”€â”€â”€ Balance Display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function updateBalance(value) {
+  const el = document.getElementById("worth-value");
+  if (!el) return;
+  el.textContent = formatMoney(value);
+  el.className = "";
+  if (value <= 0)                      el.classList.add("danger");
+  else if (value < initialWorth * 0.1) el.classList.add("warning");
+}
 
-  // Lógica comum para ambos os botões
-  const card = target.closest('.product-info');
-  const idCapturado = card.dataset.id;
-  const produtoDados = itens.find(i => i.id == idCapturado);
-  const qtySpan = card.querySelector('.qty');
-  let currentQty = parseInt(qtySpan.textContent);
-  const buyBtn = card.querySelector('.buy-btn');
+function animateBalance(from, to, duration = 600) {
+  const start = performance.now();
+  const diff  = to - from;
+  (function step(now) {
+    const p     = Math.min((now - start) / duration, 1);
+    const eased = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+    updateBalance(Math.round(from + diff * eased));
+    if (p < 1) requestAnimationFrame(step);
+    else       updateBalance(to);
+  })(performance.now());
+}
 
-  if (isBuy) {
-    // Ação de Compra
-    let precoItem = Number(String(produtoDados.price).replace(/\./g, "").replace(",", "."));
-    if (billionaireWorth - precoItem < 0) {
-      alert('Você não pode gastar mais do que o valor do bilionário!');
-      return;
-    }
-    // Se for item único e já tiver 1, não permite comprar mais
-    if (itensUnicos.includes(Number(idCapturado)) && currentQty >= 1) {
-      alert('Este item só pode ser comprado uma vez!');
-      return;
-    }
-    currentQty++;
-    myCart.push(produtoDados);
-    total += precoItem;
-    billionaireWorth -= precoItem;
-    atualizarPatrimonioTela();
-    // Se for item único, desabilita o botão de compra
-    if (itensUnicos.includes(Number(idCapturado)) && currentQty >= 1) {
-      buyBtn.disabled = true;
-      buyBtn.style.opacity = 0.5;
-      buyBtn.style.cursor = 'not-allowed';
-    }
-  } else if (isSell && currentQty > 0) {
-    // Ação de Venda
-    currentQty--;
-    const index = myCart.findIndex(item => item.id == produtoDados.id);
-    if (index !== -1) {
-      let precoItem = Number(String(produtoDados.price).replace(/\./g, "").replace(",", "."));
-      myCart.splice(index, 1);
-      total -= precoItem;
-      billionaireWorth += precoItem;
-      atualizarPatrimonioTela();
-    }
-    // Se for item único e vendeu tudo, reabilita o botão de compra
-    if (itensUnicos.includes(Number(idCapturado)) && currentQty === 0) {
-      buyBtn.disabled = false;
-      buyBtn.style.opacity = 1;
-      buyBtn.style.cursor = 'pointer';
-    }
+// â”€â”€â”€ Progress Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function updateProgress() {
+  const pct   = initialWorth > 0 ? Math.min((totalSpent / initialWorth) * 100, 100) : 0;
+  const fill  = document.getElementById("progress-fill");
+  const label = document.getElementById("progress-label");
+  if (fill)  fill.style.width = `${pct}%`;
+  if (label) label.textContent = `${pct.toFixed(1)}% spent`;
+}
+
+// â”€â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function showToast(message, type = "info") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+  // Keep at most 4 toasts — remove the oldest if already at limit
+  const existing = container.querySelectorAll(".toast");
+  if (existing.length >= 4) {
+    existing[0].classList.remove("show");
+    setTimeout(() => existing[0].remove(), 300);
+  }
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 350);
+  }, 2800);
+}
+
+// â”€â”€â”€ Category Filters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function buildFilters() {
+  const bar = document.getElementById("filter-bar");
+  if (!bar) return;
+  bar.innerHTML = "";
+  CATEGORIES.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "filter-btn" + (cat.id === "all" ? " active" : "");
+    btn.dataset.category = cat.id;
+    btn.textContent = cat.label;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCategory = cat.id;
+      renderProducts(cat.id);
+    });
+    bar.appendChild(btn);
+  });
+}
+
+// â”€â”€â”€ Product Rendering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderProducts(category = "all") {
+  const grid = document.querySelector(".product");
+  if (!grid) return;
+  const filtered = category === "all" ? itens : itens.filter(i => i.category === category);
+  grid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p class="no-items">No items in this category.</p>';
+    return;
   }
 
-  qtySpan.textContent = currentQty;
-  atualizarResumo();
+  filtered.forEach(item => {
+    const qty      = getQtyInCart(item.id);
+    const isUnique = UNIQUE_ITEMS.has(item.id);
+    const cantBuy  = billionaireWorth < item.price || (isUnique && qty >= 1);
+    const catLabel = CATEGORIES.find(c => c.id === item.category)?.label ?? "";
 
-  console.log(`Carrinho atual (${isBuy ? 'COMPROU' : 'VENDEU'}):`, myCart);
-  console.log("Total atual:", total.toFixed(2)); // .toFixed(2) ajuda com centavos no JS
+    const card = document.createElement("div");
+    card.className = "product-info";
+    card.dataset.id = item.id;
+    card.innerHTML = `
+      <span class="category-badge">${catLabel}</span>
+      <img src="assets/img/${item.image}" alt="${item.name}" loading="lazy">
+      <h2>${item.name}</h2>
+      <p class="item-price${billionaireWorth < item.price ? " unaffordable" : ""}">$${item.price.toLocaleString("en-US")}</p>
+      <div class="qty-controls">
+        <button class="sell-btn" ${qty === 0 ? "disabled" : ""}>-</button>
+        <input class="qty-input" type="number" value="${qty}" min="0"${isUnique ? ' max="1"' : ''}>
+        <button class="buy-btn" ${cantBuy ? "disabled" : ""}>+</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// â”€â”€â”€ Re-evaluate buy button states after each action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function refreshBuyButtons() {
+  document.querySelectorAll(".product-info").forEach(card => {
+    const id      = Number(card.dataset.id);
+    const item    = itens.find(i => i.id === id);
+    if (!item) return;
+    const qtyEl   = card.querySelector(".qty-input");
+    const qty     = qtyEl ? parseInt(qtyEl.value) : 0;
+    const buyBtn  = card.querySelector(".buy-btn");
+    const sellBtn = card.querySelector(".sell-btn");
+    const priceEl = card.querySelector(".item-price");
+    const cantBuy = billionaireWorth < item.price || (UNIQUE_ITEMS.has(id) && qty >= 1);
+    if (buyBtn)  buyBtn.disabled  = cantBuy;
+    if (sellBtn) sellBtn.disabled = qty === 0;
+    if (priceEl) priceEl.classList.toggle("unaffordable", billionaireWorth < item.price);
+  });
+}
+
+// â”€â”€â”€ Cart Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function updateCartSummary() {
+  const list  = document.getElementById("cart-items-list");
+  const total = document.getElementById("cart-total");
+  const badge = document.getElementById("cart-total-items");
+
+  const summary = {};
+  myCart.forEach(item => {
+    if (!summary[item.id]) summary[item.id] = { name: item.name, qty: 0, subtotal: 0 };
+    summary[item.id].qty++;
+    summary[item.id].subtotal += item.price;
+  });
+
+  if (!list) return;
+  const entries = Object.values(summary);
+  if (entries.length === 0) {
+    list.innerHTML = '<li class="cart-empty">No items purchased yet.</li>';
+  } else {
+    list.innerHTML = entries.map(s => `
+      <li class="cart-item">
+        <span class="cart-item-name">${s.name}</span>
+        <span class="cart-item-qty">&#215;${s.qty}</span>
+        <span class="cart-item-total">$${s.subtotal.toLocaleString("en-US")}</span>
+      </li>
+    `).join("");
+  }
+
+  if (total) total.textContent = `$${totalSpent.toLocaleString("en-US")}`;
+  if (badge) badge.textContent = myCart.length;
+}
+
+// â”€â”€â”€ Buy / Sell Click Handler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener("click", (e) => {
+  const isBuy  = e.target.classList.contains("buy-btn");
+  const isSell = e.target.classList.contains("sell-btn");
+  if (!isBuy && !isSell) return;
+  if (e.target.disabled) return;
+
+  const card = e.target.closest(".product-info");
+  if (!card) return;
+  const id   = Number(card.dataset.id);
+  const item = itens.find(i => i.id === id);
+  if (!item) return;
+
+  const qtyInput = card.querySelector(".qty-input");
+  let qty = parseInt(qtyInput.value);
+
+  if (isBuy) {
+    if (billionaireWorth < item.price) {
+      showToast("Not enough balance!", "error");
+      return;
+    }
+    if (UNIQUE_ITEMS.has(id) && qty >= 1) {
+      showToast("This item can only be purchased once!", "warning");
+      return;
+    }
+    qty++;
+    myCart.push(item);
+    totalSpent        += item.price;
+    const prev         = billionaireWorth;
+    billionaireWorth  -= item.price;
+    animateBalance(prev, billionaireWorth);
+    updateProgress();
+    showToast(`${item.name} added!`, "success");
+
+  } else if (isSell && qty > 0) {
+    const idx = myCart.findLastIndex(i => i.id === id);
+    if (idx === -1) return;
+    qty--;
+    myCart.splice(idx, 1);
+    totalSpent        -= item.price;
+    const prev         = billionaireWorth;
+    billionaireWorth  += item.price;
+    animateBalance(prev, billionaireWorth);
+    updateProgress();
+    showToast(`${item.name} removed.`, "info");
+  }
+
+  qtyInput.value = qty;
+  refreshBuyButtons();
+  updateCartSummary();
 });
 
+// Qty input — typed value handler
+document.addEventListener("change", (e) => {
+  if (!e.target.classList.contains("qty-input")) return;
+  const card = e.target.closest(".product-info");
+  if (!card) return;
+  const id   = Number(card.dataset.id);
+  const item = itens.find(i => i.id === id);
+  if (!item) return;
 
+  const isUnique   = UNIQUE_ITEMS.has(id);
+  const currentQty = getQtyInCart(id);
+  let   newQty     = Math.max(0, parseInt(e.target.value) || 0);
+  if (isUnique) newQty = Math.min(newQty, 1);
+  const diff = newQty - currentQty;
+
+  if (diff > 0) {
+    let bought = 0;
+    const prevWorth = billionaireWorth;
+    for (let i = 0; i < diff; i++) {
+      if (billionaireWorth < item.price) { showToast("Not enough balance!", "error"); break; }
+      myCart.push(item);
+      totalSpent       += item.price;
+      billionaireWorth -= item.price;
+      bought++;
+    }
+    if (bought > 0) {
+      animateBalance(prevWorth, billionaireWorth);
+      updateProgress();
+      showToast(`${bought}x ${item.name} added!`, "success");
+    }
+    e.target.value = currentQty + bought;
+  } else if (diff < 0) {
+    const toSell = -diff;
+    let sold = 0;
+    const prevWorth = billionaireWorth;
+    for (let i = 0; i < toSell; i++) {
+      const idx = myCart.findLastIndex(it => it.id === id);
+      if (idx === -1) break;
+      myCart.splice(idx, 1);
+      totalSpent       -= item.price;
+      billionaireWorth += item.price;
+      sold++;
+    }
+    if (sold > 0) {
+      animateBalance(prevWorth, billionaireWorth);
+      updateProgress();
+      showToast(`${sold}x ${item.name} removed.`, "info");
+    }
+    e.target.value = currentQty - sold;
+  } else {
+    e.target.value = currentQty;
+  }
+
+  refreshBuyButtons();
+  updateCartSummary();
+});
+
+// â”€â”€â”€ Reset â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.getElementById("reset-btn")?.addEventListener("click", () => {
+  const prev       = billionaireWorth;
+  billionaireWorth = initialWorth;
+  myCart           = [];
+  totalSpent       = 0;
+  animateBalance(prev, initialWorth);
+  updateProgress();
+  renderProducts(activeCategory);
+  updateCartSummary();
+  showToast("Reset! Start spending again.", "info");
+});
+
+// â”€â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window.addEventListener("DOMContentLoaded", () => {
+  const name  = sessionStorage.getItem("billionaireName") || "elon";
+  const worth = Number(sessionStorage.getItem("billionaireWorth") || "849000000000");
+  billionaireWorth = worth;
+  initialWorth     = worth;
+
+  const imgMap  = { "elon": "elon.png", "jeff": "jeff.png", "MARK ZUCKERBERG": "marquinhos.png" };
+  const nameMap = { "elon": "ELON MUSK", "jeff": "JEFF BEZOS", "MARK ZUCKERBERG": "MARK ZUCKERBERG" };
+
+  const imgEl  = document.getElementById("billionaire-img");
+  const nameEl = document.getElementById("billionaire-name");
+  if (imgEl)  { imgEl.src = `assets/img/${imgMap[name] ?? "elon.png"}`; imgEl.alt = name; }
+  if (nameEl)  nameEl.textContent = nameMap[name] ?? name.toUpperCase();
+
+  updateBalance(billionaireWorth);
+  updateProgress();
+  buildFilters();
+  renderProducts("all");
+  updateCartSummary();
+});
 

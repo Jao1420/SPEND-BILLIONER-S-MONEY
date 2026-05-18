@@ -1,97 +1,181 @@
+/* ─── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --purple-dark: #54188F;
+    --purple-mid: #7b2ff2;
+    --purple-light: #8f5aff;
+    --pink: #f357a8;
+    --white: #fff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --green: #2ecc40;
+    --card-bg: linear-gradient(160deg, #54188F 0%, #8f5aff 100%);
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--white);
+}
+
+/* ─── INDEX PAGE ─────────────────────────────────────── */
+
 #container {
     text-align: center;
-    margin-top: 50px;
+    padding: 60px 20px 24px;
 }
 
 #title {
-    font-size: 36px;
-    color: #0c0c0c;
+    font-size: clamp(20px, 5vw, 46px);
+    color: var(--white);
+    letter-spacing: 4px;
+    font-weight: 700;
+    text-shadow: 0 0 40px rgba(123, 47, 242, 0.8), 0 2px 6px rgba(0, 0, 0, 0.6);
+    margin-bottom: 14px;
+}
+
+#description {
+    font-size: clamp(13px, 1.8vw, 17px);
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-weight: 400;
 }
 
 #billionaires-box {
-    box-sizing: border-box;
-    display: flex;          /* Faz os filhos ficarem lado a lado */
-    flex-wrap: wrap;       /* Se não couber na tela, eles pulam para a linha de baixo */
-    justify-content: center; /* Centraliza os itens horizontalmente */
-    gap: 30px;          
-    width: 90%;
-    background: rgba(255,255,255,0.85);
-    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
-    min-height: 600px;      
-    margin: 2px auto;
-    padding: 20px;
-    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 36px;
+    width: 95%;
+    max-width: 1200px;
+    margin: 34px auto 70px;
+    padding: 10px;
 }
 
+/* ─── FLIP CARD ──────────────────────────────────────── */
+
 .billionaire-card {
-    box-sizing: border-box;
     position: relative;
-    height: 600px;
-    width: 350px;
-    background: linear-gradient(135deg, #7b2ff2 0%, #f357a8 100%);
-    box-shadow: 0 6px 24px rgba(44, 62, 80, 0.13);
-    border-radius: 10px;
-    margin: 10px;
+    height: 580px;
+    width: 330px;
+    border-radius: 18px;
     transform-style: preserve-3d;
-    transition:  all 0.6s ease; /* Suaviza a transição de transformação */
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .billionaire-card:hover {
-    transform: rotateY(180deg); /* Gira o card 180 graus no eixo Y */
+    transform: rotateY(180deg);
 }
 
-.billionaire-front, .billionaire-back {
-    position: absolute; /* ocupam o mesmo lugar */
+.billionaire-front,
+.billionaire-back {
+    position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Esconde o que está atrás */
-    border-radius: 10px;
-    background: linear-gradient(135deg, #54188F 0%, #8f5aff 100%);
-    padding: 20px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 18px;
+    padding: 28px 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
+
 .billionaire-back {
     transform: rotateY(180deg);
+    background: linear-gradient(160deg, #1a0533 0%, #54188F 100%);
+    gap: 22px;
+}
+
+.back-title {
+    color: var(--white);
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-align: center;
+    border-bottom: 2px solid var(--pink);
+    padding-bottom: 12px;
+    width: 100%;
+}
+
+.name-bill {
+    color: var(--white);
+    font-size: 19px;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .img {
-    height: 300px;
-    width: 300px;
-    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
-    border-radius: 10px;
-    margin-bottom: 15px;    /* Espaço entre a imagem e o texto abaixo */
+    height: 260px;
+    width: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 14px 0;
+    border: 3px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
-#billionaires-box .name-bill {
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(44, 62, 80, 0.18);
-    gap: 10px;
+.net-worth {
+    color: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-top: 6px;
 }
-
 
 .description {
-  font-family: "Roboto Mono", monospace;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-    color: #f5f7fa;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 400;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
 }
+
 .btn-click {
-    background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
-    transition: background 0.2s, transform 0.2s;
-  border: none;
-  gap:50px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+    background: linear-gradient(90deg, var(--purple-mid) 0%, var(--pink) 100%);
+    color: var(--white);
+    border: none;
+    padding: 12px 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Roboto Mono', monospace;
+    box-shadow: 0 4px 18px rgba(243, 87, 168, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.btn-click:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(243, 87, 168, 0.55);
+}
 
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .billionaire-card {
+        width: 290px;
+        height: 530px;
+    }
+    .img {
+        height: 210px;
+        width: 210px;
+    }
+}

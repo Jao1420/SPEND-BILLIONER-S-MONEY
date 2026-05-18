@@ -4,70 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spending Billionaires' Money</title>
+    <title>Spend a Billionaire's Money</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet">
-
 </head>
 
 <body>
     <div id="container">
-        <h1 id="title"> CHOOSE YOUR BILLIONER</h1>
-        <p id="description">Don´t be afraid, you won´t spend real money...</p>
+        <h1 id="title">SPEND A BILLIONAIRE'S MONEY</h1>
+        <p id="description">Pick a billionaire and blow through their entire fortune — don't worry, it's not real money!</p>
     </div>
     <div id="billionaires-box">
         <div class="billionaire-card" data-name="elon">
             <div class="billionaire-front">
-                <!-- Use data-value em vez de value -->
                 <h2 class="name-bill" data-value="849000000000" id="1">ELON MUSK</h2>
                 <img class="img" src="assets/img/elon.png" alt="Elon Musk">
-                <p data-value="849000000000">Net Worth: $849 Billion</p>
+                <p class="net-worth" data-value="849000000000">Net Worth: $849 Billion</p>
             </div>
             <div class="billionaire-back">
-                <p class="description">Known for: Founding or leading companies that challenge the limits of technology:
-                    Tesla, which popularized electric cars; SpaceX, which made commercial space travel a reality; and
-                    also running X (formerly Twitter).</p>
-                <button type="button" class="btn-click"> click</button>
+                <h3 class="back-title">ELON MUSK</h3>
+                <p class="description">Known for: founding or leading companies that challenge the limits of technology — Tesla (electric cars), SpaceX (commercial space travel) and X (formerly Twitter).</p>
+                <button type="button" class="btn-click">START SPENDING</button>
             </div>
         </div>
         <div class="billionaire-card" data-name="jeff">
             <div class="billionaire-front">
                 <h2 class="name-bill" data-value="222900000000" id="2">JEFF BEZOS</h2>
                 <img class="img" src="assets/img/jeff.png" alt="Jeff Bezos">
-                <p data-value="222900000000">Net Worth: $222.9 Billion</p>
+                <p class="net-worth" data-value="222900000000">Net Worth: $222.9 Billion</p>
             </div>
             <div class="billionaire-back">
-                <p class="description">Known for: The founder and former CEO of Amazon, the e-commerce giant that
-                    revolutionized online shopping.</p>
-                <button type="button" class="btn-click"> click</button>
+                <h3 class="back-title">JEFF BEZOS</h3>
+                <p class="description">Known for: founder and former CEO of Amazon, the e-commerce giant that revolutionized online shopping and cloud computing with AWS.</p>
+                <button type="button" class="btn-click">START SPENDING</button>
             </div>
         </div>
 
         <div class="billionaire-card" data-name="MARK ZUCKERBERG">
             <div class="billionaire-front">
                 <h2 class="name-bill" data-value="232000000000" id="3">MARK ZUCKERBERG</h2>
-                <img class="img" src="assets/img/marquinhos.png" alt="MARK ZUCKERBERG">
-                <p data-value="232000000000">Net Worth: $232 Billion</p>
+                <img class="img" src="assets/img/marquinhos.png" alt="Mark Zuckerberg">
+                <p class="net-worth" data-value="232000000000">Net Worth: $232 Billion</p>
             </div>
             <div class="billionaire-back">
-                <p class="description">Known for: the cofounder and CEO of Facebook (now part of Meta), the world's
-                    largest social media platform.</p>
-                <button type="button" class="btn-click"> click</button>
+                <h3 class="back-title">MARK ZUCKERBERG</h3>
+                <p class="description">Known for: co-founder and CEO of Meta — the company behind Facebook, Instagram and WhatsApp, the world's largest social media empire.</p>
+                <button type="button" class="btn-click">START SPENDING</button>
             </div>
         </div>
     </div>
 
 <script type="module">
-// Lógica para escolher o bilionário e redirecionar
 document.querySelectorAll('.btn-click').forEach(button => {
     button.addEventListener('click', function () {
         const card = this.closest('.billionaire-card');
-        const idCapturado = card.querySelector('.name-bill').id;
+        const nameEl = card.querySelector('.name-bill');
+        const idCapturado = nameEl.id;
         const nomeBillionaire = card.getAttribute('data-name');
-        const worth = card.querySelector('.billionaire-front p').getAttribute('data-value');
+        const worth = card.querySelector('.net-worth').getAttribute('data-value');
         sessionStorage.setItem('billionaireId', idCapturado);
         sessionStorage.setItem('billionaireName', nomeBillionaire);
         sessionStorage.setItem('billionaireWorth', worth);
@@ -76,6 +73,5 @@ document.querySelectorAll('.btn-click').forEach(button => {
 });
 </script>
 </body>
-
 
 </html>
